@@ -203,6 +203,32 @@
 				"inputs": [
 					{
 						"internalType": "uint256",
+						"name": "_tokenId",
+						"type": "uint256"
+					}
+				],
+				"name": "confirmPurchase",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_tokenId",
+						"type": "uint256"
+					}
+				],
+				"name": "confirmReceived",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
 						"name": "_contractId",
 						"type": "uint256"
 					},
@@ -340,16 +366,6 @@
 						"type": "uint256"
 					},
 					{
-						"internalType": "address",
-						"name": "_bilboydAddress",
-						"type": "address"
-					},
-					{
-						"internalType": "address",
-						"name": "_renterAddress",
-						"type": "address"
-					},
-					{
 						"internalType": "uint256",
 						"name": "_tokenId",
 						"type": "uint256"
@@ -399,16 +415,6 @@
 						"internalType": "uint256",
 						"name": "contractDuration",
 						"type": "uint256"
-					},
-					{
-						"internalType": "address",
-						"name": "bilboydAddress",
-						"type": "address"
-					},
-					{
-						"internalType": "address",
-						"name": "renterAddress",
-						"type": "address"
 					},
 					{
 						"internalType": "uint256",
@@ -468,11 +474,6 @@
 					{
 						"internalType": "uint256",
 						"name": "_tokenId",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "_contractId",
 						"type": "uint256"
 					}
 				],
@@ -657,6 +658,19 @@
 				"name": "setMonthlyQuota",
 				"outputs": [],
 				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "state",
+				"outputs": [
+					{
+						"internalType": "enum BilBoyd.State",
+						"name": "",
+						"type": "uint8"
+					}
+				],
+				"stateMutability": "view",
 				"type": "function"
 			},
 			{
@@ -943,11 +957,11 @@
 			]
 		},
 		"contracts/BilBoyd.sol": {
-			"keccak256": "0xa6f4a6e7a58979454cdf8b630fbe8dbdc32c24f56ab15b18fb8a3bbba516d90b",
+			"keccak256": "0xf2ee9a603ae87c633623616f2fb7b24b221d013186652a2bf1267e6c604280a7",
 			"license": "GPL-3.0",
 			"urls": [
-				"bzz-raw://af1a816e2984b89884dc31a2370f8884cb0773e2a14f29b9a3393f3967002b78",
-				"dweb:/ipfs/QmbPyaEMRsp5GwKupcw394L8ueZdmxijrUUNjBaMfABDdx"
+				"bzz-raw://01da3ddf89ac63901878109bd80111e08268c7dbe7ada3132b592c3cb2c46769",
+				"dweb:/ipfs/QmYAKRDr1DPS3VDcoohJBGNYeganCqxTf8UpEwTzagLWmt"
 			]
 		}
 	},

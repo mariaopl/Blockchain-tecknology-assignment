@@ -7,11 +7,14 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
  
 contract BilBoyd is ERC721, Ownable {
     uint256 public tokenId;
-    //address bilboydAddress;
-    address customer;
+    address bilboydAddress;
+    address customerAddress;
     mapping(uint256 => leaseContract) public leaseInfoMapping;
     mapping(uint256 => car) public cars;
     mapping(uint256 => price) public prices;
+
+    enum State { Created , Locked , Inactive }
+    State public state;
  
    struct leaseContract {
        uint256 contractId;
@@ -19,8 +22,6 @@ contract BilBoyd is ERC721, Ownable {
        uint256 posessionLicense;
        uint256 mileageCap;
        uint256 contractDuration;
-       address bilboydAddress;
-       address renterAddress;
        uint256 monthlyQuota;
    }
 
@@ -46,17 +47,15 @@ contract BilBoyd is ERC721, Ownable {
        uint256 _posessionLicense,
        uint256 _mileageCap,
        uint256 _contractDuration,
-       address _bilboydAddress,
-       address _renterAddress,
        uint256 _tokenId,
        uint _originalValue) public payable {
             setMonthlyQuota(_originalValue, _mileage, _posessionLicense, _mileageCap, _contractDuration, _tokenId);
             leaseInfoMapping[_contractId] = leaseContract(_contractId, _mileage, _posessionLicense, _mileageCap,
-            _contractDuration, _bilboydAddress, _renterAddress, prices[_tokenId].price);
+            _contractDuration, prices[_tokenId].price);
             checkBalance(_tokenId);
-            customer = payable(msg.sender);
+            customerAddress = payable(msg.sender);
             require(msg.value == 4 * (prices[_tokenId].price), "Invalid value");
-            payable(leaseInfoMapping[_contractId].bilboydAddress).transfer(msg.value);
+            payable(bilboydAddress).transfer(msg.value);
 
     }
  
@@ -101,24 +100,45 @@ contract BilBoyd is ERC721, Ownable {
        require(getBalance() >= 4 * (prices[_tokenId].price), "The renter does not have enough funds.");
    }
 
+   function confirmPurchase(uint256 _tokenId) public inState(State.Created) condition(msg.value == (prices[_tokenId].price)) payable {
+        customerAddress = msg.sender;
+        state = State.Locked;
+    }
+
+    function confirmReceived(uint256 _tokenId) public onlyBuyer inState(State.Locked) payable {
+        state = State.Inactive;
+        payable(customerAddress).transfer(prices[_tokenId].price);
+        payable(bilboydAddress).transfer(address(this).balance);
+    }
+
  
-   function monthlyPayment(uint256 _tokenId, uint256 _contractId) public payable {
+   function monthlyPayment(uint256 _tokenId) public payable {
         checkBalance(_tokenId);
-        customer = payable(msg.sender);
+        customerAddress = payable(msg.sender);
         require(msg.value == (prices[_tokenId].price), "Invalid value");
-        payable(leaseInfoMapping[_contractId].bilboydAddress).transfer(msg.value);
+        payable(bilboydAddress).transfer(msg.value);
    }
 
     //Kan seller og buyer sjekkes mot msg.sender?
-   modifier onlyBuyer(uint256 _id) {
-       require(msg.sender == leaseInfoMapping[_id].renterAddress, "Only the buyer can call this.");
+   modifier onlyBuyer() {
+       require(msg.sender == customerAddress, "Only the buyer can call this.");
        _;
    }
 
-   modifier onlySeller(uint256 _id) {
-       require(msg.sender == leaseInfoMapping[_id].bilboydAddress, "Only the seller can call this.");
+   modifier onlySeller() {
+       require(msg.sender == bilboydAddress, "Only the seller can call this.");
        _;
    }
+
+   modifier inState(State _state) {
+        require( state == _state , "Invalid state.");
+        _;
+    }
+
+    modifier condition(bool _condition) {
+        require(_condition);
+        _;
+    }
 
     function terminateContract(uint256 _contractId, uint256 _tokenId) public {
         _burn(_contractId);
@@ -130,7 +150,6 @@ contract BilBoyd is ERC721, Ownable {
         uint256 _posessionLicense, 
         uint256 _mileageCap, 
         uint256 _tokenId) public {
-            //
             setMonthlyQuota(cars[_tokenId].originalValue, _mileage, _posessionLicense, _mileageCap, 
             leaseInfoMapping[_contractId].contractDuration + _newDuration, _tokenId);
             leaseInfoMapping[_contractId].contractDuration += _newDuration;
