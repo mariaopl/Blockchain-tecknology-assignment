@@ -308,7 +308,7 @@
 						"type": "uint256"
 					}
 				],
-				"name": "extendLease",
+				"name": "extendLeaseByOneYear",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -767,11 +767,16 @@
 						"internalType": "uint256",
 						"name": "_tokenId",
 						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_customerId",
+						"type": "uint256"
 					}
 				],
 				"name": "terminateContract",
 				"outputs": [],
-				"stateMutability": "nonpayable",
+				"stateMutability": "payable",
 				"type": "function"
 			},
 			{
@@ -1008,11 +1013,11 @@
 			]
 		},
 		"contracts/BilBoyd.sol": {
-			"keccak256": "0xe4ee2dcc59749b2861205f8921292e9af0aa737e1b35c5bd5b69536a3b05f6db",
+			"keccak256": "0x268e9196420105ae54731693454324d0974ea1958899e8c83c714bf0fcaffbf0",
 			"license": "GPL-3.0",
 			"urls": [
-				"bzz-raw://748799491db49a95fb81be71c30085052bfbb077084cb2228b63e07a935370fa",
-				"dweb:/ipfs/QmWdnk8aPj6V3qckcG8sVeyiGuzXBLQjb9ckjqbQiHiJNi"
+				"bzz-raw://be591bc9c3d563847e291816532fedc67c0d0f8a4a966510b94a5c84e82756c5",
+				"dweb:/ipfs/QmRuL47QxLe2soza11E9U6SqBSApU9sqpyFo4yUdTQVNKt"
 			]
 		}
 	},

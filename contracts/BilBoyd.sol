@@ -27,7 +27,7 @@ contract BilBoyd is ERC721, Ownable {
        uint256 monthlyQuota;
        address customerAddress;
    }
-   
+
    struct customer {
        address customerAddress;
    }
@@ -54,6 +54,7 @@ contract BilBoyd is ERC721, Ownable {
     //Therefore it checks that the state is Locked (that the renter has accepted the offer) before it makes the fair exchange
     //The renter sends the payment and BilBoyd adds the contract to the leaseInfoMapping.
     //The available field in the car struct is set to false, since it's not avaialble anymore when its leased out
+    //This function will also be called if the tenant wants to sign a new lease for a new vehicle
     function lease(
         uint256 _mileage,
         uint256 _posessionLicense,
@@ -158,25 +159,28 @@ contract BilBoyd is ERC721, Ownable {
     }
 
     //This function is used if the customer wishes to end terminate the lease at the end of the leaseperiod
+    //The down payment that was transfered to BilBoyd at the start of the leasing contract is now returned to the customer.
     //The available attribute is set to true since the car is now available
-    function terminateContract(uint256 _contractId, uint256 _tokenId) public {
+    function terminateContract(uint256 _contractId, uint256 _tokenId, uint256 _customerId) public payable {
+        payable(customers[_customerId].customerAddress).transfer(3 * (prices[_tokenId].price));
         _burn(_contractId);
         cars[_tokenId].available = true;
     }
 
-    //This function is used if the customer wants to extend the lease at the end of the lease period
+    //This function is used if the customer wants to extend the lease by one year at the end of the lease period
     //The function changes variables that has changed since the time of the last leases beginning
-    function extendLease(uint256 _contractId, uint256 _newDuration,
+    function extendLeaseByOneYear(uint256 _contractId, uint256 _newDuration,
         uint256 _mileage, 
         uint256 _posessionLicense, 
         uint256 _mileageCap, 
         uint256 _tokenId) public {
             setMonthlyQuota(cars[_tokenId].originalValue, _mileage, _posessionLicense, _mileageCap,
-            leaseInfoMapping[_contractId].contractDuration + _newDuration, _tokenId);
+            leaseInfoMapping[_contractId].contractDuration + 12, _tokenId);
             leaseInfoMapping[_contractId].contractDuration += _newDuration;
             leaseInfoMapping[_contractId].mileage = _mileage;
             leaseInfoMapping[_contractId].posessionLicense = _posessionLicense;
             leaseInfoMapping[_contractId].mileageCap = _mileageCap;
+            leaseInfoMapping[_contractId].monthlyQuota = prices[_tokenId].price;
     }
 
 
