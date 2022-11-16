@@ -63,17 +63,21 @@ contract BilBoyd is ERC721, Ownable {
         uint256 _tokenId,
         uint _originalValue,
         uint256 _customerId)
-        public payable inState(State.Locked) {
+        public onlyOwner inState(State.Locked) {
             setMonthlyQuota(_originalValue, _mileage, _posessionLicense, _mileageCap, _contractDuration, _tokenId);
-            require(checkBalance(_tokenId, _customerId) == true, "Not enough ether");
-            payable(customers[_customerId].customerAddress);
-            require(msg.value == 4 * (prices[_tokenId].price), "Invalid value");
-            payable(bilboydAddress).transfer(msg.value);
             leaseInfoMapping[contractId] = leaseContract(_mileage, _posessionLicense, _mileageCap,
             _contractDuration, prices[_tokenId].price, customers[_customerId].customerAddress);
             uint256 newContractId = contractId;
             contractId = newContractId + 1;
             cars[_tokenId].available = false;
+    }
+
+    //The first payment is done in this function when the tenant calls this function and it's called after the lease function
+    function firstPayment(uint256 _tokenId, uint256 _customerId) public payable inState(State.Locked) {
+        require(checkBalance(_tokenId, _customerId) == true, "Not enough ether");
+        payable(customers[_customerId].customerAddress);
+        require(msg.value == 4 * (prices[_tokenId].price), "Invalid value");
+        payable(bilboydAddress).transfer(msg.value);
     }
 
     //The idea is that a customer enters the BilBoyd shop and registers as a customer before starting the leasing negotiation or sale
@@ -132,8 +136,8 @@ contract BilBoyd is ERC721, Ownable {
         }
    }
 
-    //This function ensures fair exchange by requiring the customer to accept the offer before the exchange happends
-    function confirmPurchase(uint256 _customerId) public onlyOwner inState(State.Created) {
+    //This function ensures fair exchange by requiring the customer to accept the offer before the exchange happens
+    function confirmPurchase(uint256 _customerId) public inState(State.Created) {
         customers[_customerId].customerAddress = msg.sender;
         state = State.Locked;
     }
@@ -160,11 +164,12 @@ contract BilBoyd is ERC721, Ownable {
 
     //This function is used if the customer wishes to end terminate the lease at the end of the leaseperiod
     //The down payment that was transfered to BilBoyd at the start of the leasing contract is now returned to the customer.
-    //The available attribute is set to true since the car is now available
+    //The available attribute is set to true since the car is now available and the state is inactive
     function terminateContract(uint256 _contractId, uint256 _tokenId, uint256 _customerId) public payable {
         payable(customers[_customerId].customerAddress).transfer(3 * (prices[_tokenId].price));
         _burn(_contractId);
         cars[_tokenId].available = true;
+        state = State.Inactive;
     }
 
     //This function is used if the customer wants to extend the lease by one year at the end of the lease period
