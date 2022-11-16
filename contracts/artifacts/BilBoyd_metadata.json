@@ -107,25 +107,6 @@
 			{
 				"inputs": [
 					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"name": "activeContracts",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "contractId",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
 						"internalType": "address",
 						"name": "_customerAddress",
 						"type": "address"
@@ -1027,11 +1008,11 @@
 			]
 		},
 		"contracts/BilBoyd.sol": {
-			"keccak256": "0x4165acec33f7903e64306c9f877eb92d75fe5085409a5f79e06db4558f0642b8",
+			"keccak256": "0xe4ee2dcc59749b2861205f8921292e9af0aa737e1b35c5bd5b69536a3b05f6db",
 			"license": "GPL-3.0",
 			"urls": [
-				"bzz-raw://2e61eb8527f0d7447f868012a419d8e20738fb4287ea8521cec98e114aae614f",
-				"dweb:/ipfs/QmcEU6xWs6DtGgs7q4YAQDZ1E4REu1bjEDYTBREEeCbwJJ"
+				"bzz-raw://748799491db49a95fb81be71c30085052bfbb077084cb2228b63e07a935370fa",
+				"dweb:/ipfs/QmWdnk8aPj6V3qckcG8sVeyiGuzXBLQjb9ckjqbQiHiJNi"
 			]
 		}
 	},

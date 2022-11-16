@@ -14,7 +14,6 @@ contract BilBoyd is ERC721, Ownable {
     mapping(uint256 => car) public cars;
     mapping(uint256 => price) public prices;
     mapping(uint256 => customer) public customers;
-    mapping(uint256 => activeContract) public activeContracts;
 
     //State is used to ensure fair exchange
     enum State { Created , Locked , Inactive }
@@ -28,11 +27,7 @@ contract BilBoyd is ERC721, Ownable {
        uint256 monthlyQuota;
        address customerAddress;
    }
-
-   struct activeContract {
-       uint256 contractId;
-   }
-
+   
    struct customer {
        address customerAddress;
    }
