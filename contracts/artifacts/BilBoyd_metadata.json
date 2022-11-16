@@ -107,6 +107,38 @@
 			{
 				"inputs": [
 					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "activeContracts",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "contractId",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_customerAddress",
+						"type": "address"
+					}
+				],
+				"name": "addCustomer",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "address",
 						"name": "to",
 						"type": "address"
@@ -186,6 +218,11 @@
 						"internalType": "uint256",
 						"name": "_tokenId",
 						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_customerId",
+						"type": "uint256"
 					}
 				],
 				"name": "checkBalance",
@@ -203,26 +240,58 @@
 				"inputs": [
 					{
 						"internalType": "uint256",
-						"name": "_tokenId",
+						"name": "_customerId",
 						"type": "uint256"
 					}
 				],
 				"name": "confirmPurchase",
 				"outputs": [],
-				"stateMutability": "payable",
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "contractId",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "customerId",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
 				"type": "function"
 			},
 			{
 				"inputs": [
 					{
 						"internalType": "uint256",
-						"name": "_tokenId",
+						"name": "",
 						"type": "uint256"
 					}
 				],
-				"name": "confirmReceived",
-				"outputs": [],
-				"stateMutability": "payable",
+				"name": "customers",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "customerAddress",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
 				"type": "function"
 			},
 			{
@@ -283,7 +352,13 @@
 				"type": "function"
 			},
 			{
-				"inputs": [],
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_customerId",
+						"type": "uint256"
+					}
+				],
 				"name": "getBalance",
 				"outputs": [
 					{
@@ -342,11 +417,6 @@
 				"inputs": [
 					{
 						"internalType": "uint256",
-						"name": "_contractId",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
 						"name": "_mileage",
 						"type": "uint256"
 					},
@@ -374,6 +444,11 @@
 						"internalType": "uint256",
 						"name": "_originalValue",
 						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_customerId",
+						"type": "uint256"
 					}
 				],
 				"name": "lease",
@@ -391,11 +466,6 @@
 				],
 				"name": "leaseInfoMapping",
 				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "contractId",
-						"type": "uint256"
-					},
 					{
 						"internalType": "uint256",
 						"name": "mileage",
@@ -420,6 +490,11 @@
 						"internalType": "uint256",
 						"name": "monthlyQuota",
 						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "customerAddress",
+						"type": "address"
 					}
 				],
 				"stateMutability": "view",
@@ -427,11 +502,6 @@
 			},
 			{
 				"inputs": [
-					{
-						"internalType": "address",
-						"name": "_to",
-						"type": "address"
-					},
 					{
 						"internalType": "string",
 						"name": "_model",
@@ -451,11 +521,6 @@
 						"internalType": "uint256",
 						"name": "_originalValue",
 						"type": "uint256"
-					},
-					{
-						"internalType": "bool",
-						"name": "_available",
-						"type": "bool"
 					}
 				],
 				"name": "mint",
@@ -474,6 +539,11 @@
 					{
 						"internalType": "uint256",
 						"name": "_tokenId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_customerId",
 						"type": "uint256"
 					}
 				],
@@ -957,11 +1027,11 @@
 			]
 		},
 		"contracts/BilBoyd.sol": {
-			"keccak256": "0xf2ee9a603ae87c633623616f2fb7b24b221d013186652a2bf1267e6c604280a7",
+			"keccak256": "0x4165acec33f7903e64306c9f877eb92d75fe5085409a5f79e06db4558f0642b8",
 			"license": "GPL-3.0",
 			"urls": [
-				"bzz-raw://01da3ddf89ac63901878109bd80111e08268c7dbe7ada3132b592c3cb2c46769",
-				"dweb:/ipfs/QmYAKRDr1DPS3VDcoohJBGNYeganCqxTf8UpEwTzagLWmt"
+				"bzz-raw://2e61eb8527f0d7447f868012a419d8e20738fb4287ea8521cec98e114aae614f",
+				"dweb:/ipfs/QmcEU6xWs6DtGgs7q4YAQDZ1E4REu1bjEDYTBREEeCbwJJ"
 			]
 		}
 	},
